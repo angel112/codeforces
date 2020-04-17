@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector<vector<int>> m(20001, vector<int>(2));
+vector<vector<int>> m(200001, vector<int>(2));
 vector<int> z;
 
 int dfs(int n, int l, int s) {
@@ -42,7 +42,7 @@ int main() {
     sort(zz.begin(), zz.end());
     int q = n - k;
     int i = zz.size() - 1;
-    int ans = 0;
+    long long ans = 0;
     while (q > 0) {
         ans += zz[i];
         i--;
