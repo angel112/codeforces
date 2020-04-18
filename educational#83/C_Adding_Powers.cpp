@@ -1,55 +1,70 @@
 #include <bits/stdc++.h>
 
-#define lli long long int
+#define ll long long int
 
 using namespace std;
 
-int main() {
-
-    lli t, n, k;
+int main()
+{
+    ios::sync_with_stdio(0);
+    ll t;
     cin >> t;
-    while (t > 0) {
+    while (t-- > 0)
+    {
+        bool yes = true;
+        ll n, k;
         cin >> n >> k;
-        map<lli, lli> i;
-        bool answer = true;
-        for (lli j = 0 ; j < n ; j++) {
-            lli x;
-            cin>>x;
-            if(x > pow(10,16))
-                answer = false;
-            if (x < (pow(2, 32) - 1)) {
-                while (x != 0 && answer) {
-                    float lx = log(x);
-                    float lk = log(k);
-                    float a = lx / lk;
-                    a = floor(a);
-                    if (i.find(a) != i.end()) {
-                        answer = false;
+        vector<ll> a(n);
+        map<ll,ll> mp;
+        for (ll i = 0; i < n; i++)
+        {
+            cin >> a[i];
+        }
+        sort(a.begin(), a.end());
+        for (ll i = 0; i < n; i++)
+        {
+            if (a[i] == 0)
+                continue;
+            if (a[i] == a[i + 1])
+            {
+                yes = false;
+                break;
+            }
+            ll y = a[i];
+            ll x = (log10(y) / log10(k));
+            x++;
+            vector<ll> mu;
+            yes = false;
+            while (!yes && x >= 0)
+            {
+                if (mp[x] == 0)
+                {
+                    y = y - pow(k, x);
+                    if (y == 0)
+                    {
+                        yes = true;
+                        mu.push_back(x);
+                    } else if (y > 0) {
+                        mu.push_back(x);
                     } else {
-                        lli y = pow(k,a);
-                        x -= y;
-                        i.insert(pair<lli,lli>(a,1));
+                        y += pow(k, x);
                     }
                 }
+                x--;
+            }
+            if (yes) {
+                for (ll j = 0 ; j < mu.size() ; j++) {
+                    mp[mu[j]] = 1;
+                }
+                mu.clear();
             } else {
-                while (x != 0 && answer) {
-                    double a = log(x) / log(k);
-                    a = floor(a);
-                    if (i.find(a) != i.end()) {
-                        answer = false;
-                    } else {
-                        lli y = pow(k,a);
-                        x -= y;
-                        i.insert(pair<lli,lli>(a,1));
-                    }
-                }
+                break;
             }
         }
-        if (answer == true) 
-            cout << "YES" << endl;
-        else
-            cout << "NO" << endl;
-        t--;
+        if (yes) {
+            cout << "YES\n";
+        } else 
+            cout << "NO\n";
     }
     return 0;
 }
