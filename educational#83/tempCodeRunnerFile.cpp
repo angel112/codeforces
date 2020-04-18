@@ -1,2 +1,0 @@
-
-                    float lk = log(k);
