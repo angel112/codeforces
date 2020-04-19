@@ -1,64 +1,72 @@
 #include <bits/stdc++.h>
 
-#define lli long long int
+#define ll long long int
 
 using namespace std;
 
-int main() {
-    lli counter = 0, i = 0;
-    lli s;
-    cin>>s;
-    if (s >= 1 && s <= 100 ) {
-        string str;
-        cin >> str;
+string a;
 
-
-        while (i < s) {
-
-            char ch = str[i];
-            if (i == 0) {
-                if (str[i] == str[i+1] + 1) {
-                    str.erase(i,1);
-                    s--;
-                    counter++;
-                }
-                else
-                    i++;
-            }
-            else if (i == s-1) {
-                if (str[i] == str[i-1] + 1) {
-                    str.erase(i,1);
-                    s--;
-                    counter++;
-                }
+int del(char ch)
+{
+    auto f = a.find(ch);
+    int ans = 0;
+    while (f != string::npos)
+    {
+        if (f != 0 && a[f - 1] == ch - 1) {
+            a.erase(f, 1);
+            f--;
+            ans++;
+        } else if (f != a.length() - 1 && a[f + 1] == ch - 1) {
+            int i = 1;
+            while (a[--f] == ch)   
                 i++;
-            }
-            else if (str[i] == str[i+1] - 1) {
-                while (str[i] == str[i+1] - 1 && i != s-1)
-                    i++;
-                str.erase(i,1);
-                s--;
-                counter++;
-                i--;
-            }
-            else if (str[i] == str[i+1] + 1) {
-                str.erase(i,1);
-                s--;
-                counter++;
-                i--;
-            }
-            else if (str[i] == str[i-1] + 1) {
-                str.erase(i,1);
-                s--;
-                counter++;
-                i--;
-            }
-            else
-                i++; 
-            
+            f++;
+            a.erase(f, i);
+            f--;
+            ans += i;
         }
-        cout<<counter;
+        f = a.find(ch, f + 1);
     }
-    return 0;
+    return ans;
 }
 
+int main()
+{
+    ll count = 0, i = 0;
+    ll n;
+    ll x = 0;
+    cin >> n;
+    string str;
+    cin >> str;
+    string s = str;
+    sort(s.begin(), s.end());
+    // cout << s;
+    while (true)
+    {
+        int ans = 0;
+        for (ll i = s.length() - 1; i >= 0; i--)
+        {
+            char ch = s[i];
+            x = 1;
+            if (ch == 'a')
+                break;
+            auto j = s.find(ch);
+            i = j;
+            if (s[i - 1] == ch - 1)
+            {
+                a = str;
+                ans += del(ch);
+                str = a;
+            }
+        }
+        if (ans == 0) {
+            break;
+        } else {
+            count += ans;
+        }
+        s = str;
+        sort(s.begin(), s.end());
+    }
+    cout << count;
+    return 0;
+}
