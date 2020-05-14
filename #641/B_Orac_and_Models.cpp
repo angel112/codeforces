@@ -31,7 +31,6 @@ int main()
             cin >> a[i];
         }
         vi b(n + 1, 1);
-
         int ans = 1;
 
         fr (1, n + 1) {
